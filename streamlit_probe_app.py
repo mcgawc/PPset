@@ -15,7 +15,7 @@ from urllib import request, parse
 import http.client
 
 def reverse_complement(sequence):
-    complement_dict = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C', '[' : ']' , '/' :'/', '[' : ']' }
+    complement_dict = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C', '[' : ']' , '/' :'/', ']' : '[' }
     reverse_comp = ''.join([complement_dict.get(base, base) for base in reversed(sequence)])
     return reverse_comp
 
