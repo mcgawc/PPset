@@ -180,8 +180,8 @@ def clean_up_input(gblock):
 def get_variant_regions(gblock):
     seq_before_snp = gblock[gblock.index('[') - 11:gblock.index('[')-1]
     seq_after_snp = gblock[gblock.index(']') + 1:gblock.index(']') + 11]
-    variant_1 = gblock[ gblock.index('[') :gblock.index('/')]
-    variant_2 = gblock[gblock.index('/') :  gblock.index(']')]
+    variant_1 = gblock[ gblock.index('[') + 1 :gblock.index('/')]
+    variant_2 = gblock[gblock.index('/') + 1 :  gblock.index(']')]
     seq_1 = seq_before_snp + variant_1 + seq_after_snp
     seq_2 = seq_before_snp + variant_2 + seq_after_snp
     return {seq_1:variant_1, seq_2:variant_2 }  # Return a dict containing the two sequences
