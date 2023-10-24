@@ -178,7 +178,7 @@ def clean_up_input(gblock):
     return gblock
     
 def get_variant_regions(gblock):
-    seq_before_snp = gblock[gblock.index('[') - 11:gblock.index('[')]
+    seq_before_snp = gblock[gblock.index('[') - 12:gblock.index('[')]
     seq_after_snp = gblock[gblock.index(']') + 1:gblock.index(']') + 12]
     variant_1 = gblock[ gblock.index('[') + 1 :gblock.index('/')]
     variant_2 = gblock[gblock.index('/') + 1 :  gblock.index(']')]
