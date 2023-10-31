@@ -495,7 +495,7 @@ def main():
     # Process seq_1
     sub_sequences_seq1 = generate_sub_sequences(seq_1)
     master_probe_list_seq1 = generate_master_probe_list(sub_sequences_seq1, valid_permutations)
-    master_probe_list_seq1 = remove_3primeG_5primeG(remove_3G_3C(master_probe_list_seq1))
+    master_probe_list_seq1 = remove5_primeG(remove_3G_3C(master_probe_list_seq1))
     tm_dict_seq1 = calculate_Tm_values(master_probe_list_seq1) 
     probe_dict_seq1 = add_LNA_count_parameter(add_snp_distance_parameter(add_GC_ratio_parameter(add_length_parameter(create_probe_parameter_dict(tm_dict_seq1)))))
     filtered_probes_seq1 = filter_aprox_Tm_probes(probe_dict_seq1, (int(aprox_tm_range[0]), int(aprox_tm_range[1])))
@@ -528,7 +528,7 @@ def main():
     # Process seq_2
     sub_sequences_seq2 = generate_sub_sequences(seq_2)
     master_probe_list_seq2 = generate_master_probe_list(sub_sequences_seq2, valid_permutations)
-    master_probe_list_seq2 = remove_3primeG_5primeG(remove_3G_3C(master_probe_list_seq2))
+    master_probe_list_seq2 = remove_5primeG(remove_3G_3C(master_probe_list_seq2))
     tm_dict_seq2 = calculate_Tm_values(master_probe_list_seq2)
     
     probe_dict_seq2 = add_LNA_count_parameter(add_snp_distance_parameter(add_GC_ratio_parameter(add_length_parameter(create_probe_parameter_dict(tm_dict_seq2)))))
