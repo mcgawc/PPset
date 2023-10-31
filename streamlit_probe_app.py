@@ -288,11 +288,11 @@ def remove_3G_3C(probe_list):
             filtered_probe_list.append(sub_sequence)
     return filtered_probe_list
 
-def remove_3primeG_5primeG(probe_list):
+def remove_5primeG(probe_list):
     filtered_probe_list = []
     for sub_sequence in probe_list:
         exclude_sub_sequence = False
-        if sub_sequence[0][-1] == 'G' or sub_sequence[-1][-1] == 'G':
+        if sub_sequence[0][-1] == 'G':
             exclude_sub_sequence = True
         if not exclude_sub_sequence:
             filtered_probe_list.append(sub_sequence)
