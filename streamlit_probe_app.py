@@ -515,28 +515,11 @@ def main():
     probe_dict_seq1 = execute_subprocess_1(seq_1, valid_permutations, tm_range, GC_range, pos_range, len_range, LNA_range, aprox_tm_range, input_seq[seq_2], token)
     st.header("Probes for " + input_seq[seq_1] + " allele")
     display_probe_data(probe_dict_seq1)
-    
-    # Process seq_2
-    sub_sequences_seq2 = generate_sub_sequences(seq_2)
-    master_probe_list_seq2 = generate_master_probe_list(sub_sequences_seq2, valid_permutations)
-    master_probe_list_seq2 = remove_5primeG(remove_3G_3C(master_probe_list_seq2))
-    tm_dict_seq2 = calculate_Tm_values(master_probe_list_seq2)
-    
-    probe_dict_seq2 = add_LNA_count_parameter(add_snp_distance_parameter(add_GC_ratio_parameter(add_length_parameter(create_probe_parameter_dict(tm_dict_seq2)))))
-    filtered_probes_seq2 = filter_aprox_Tm_probes(probe_dict_seq2, (int(aprox_tm_range[0]), int(aprox_tm_range[1])))
-    filtered_probes_seq2 = filter_GC_probes(probe_dict_seq2, (int(GC_range[0]), int(GC_range[1])))
-    filtered_probes_seq2 = filter_snp_pos(probe_dict_seq2, (int(pos_range[0]), int(pos_range[1])))
-    filtered_probes_seq2 = filter_length_probe(probe_dict_seq2, (int(len_range[0]), int(len_range[1])))
-    filtered_probes_seq2 = filter_LNA_count_probe(probe_dict_seq2, (int(LNA_range[0]), int(LNA_range[1])))
-    filtered_probes_seq2 = refine_Tm_values(probe_dict_seq2, token)
-    filtered_probes_seq2 = filter_Tm_probes(probe_dict_seq2, (int(tm_range[0]), int(tm_range[1])))
-    get_hairpin_values(probe_dict_seq2, token)
-    get_mismatch_values(probe_dict_seq2,input_seq[seq_1], token)
-    #get_selfdimer_values(probe_dict_seq2, token)
-    # Display probe data and offer Excel export
-    # Display probe data and offer Excel export
+
+    probe_dict_seq2 = execute_subprocess_1(seq_2, valid_permutations, tm_range, GC_range, pos_range, len_range, LNA_range, aprox_tm_range, input_seq[seq_1], token)
     st.header("Probes for " + input_seq[seq_2] + " allele")
-    display_probe_data(probe_dict_seq2)
+    display_probe_data(probe_dict_seq1)
+
     if st.button("Export probes 2 to Excel"):
         excel_name = 'probes2'
         excel_file = export_probe_data_to_excel(probe_dict_seq2, excel_name)
