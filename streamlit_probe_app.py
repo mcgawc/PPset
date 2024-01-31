@@ -476,9 +476,10 @@ def main():
     len_range = st.sidebar.slider("probe length", 9, 14, (10, 10), 1)
     LNA_range = st.sidebar.slider("Number of LNA", 3, 7, (3, 6), 1)
     aprox_tm_range = (58, 68)
+    go_button = st.sidebar.button("GO!")
     
-    if not input_gblock:
-        st.warning("Please enter the gblock sequence.")
+    if not input_gblock or not go_button:
+        st.warning("Please enter the gblock sequence and press GO!")
         return
     rev_comp = st.sidebar.checkbox('reverse complement', value=False)
     if rev_comp:
