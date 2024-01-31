@@ -495,8 +495,7 @@ def main():
     LNA_range = st.sidebar.slider("Number of LNA", 3, 7, (3, 6), 1)
     aprox_tm_range = (58, 68)
     rev_comp = st.sidebar.checkbox('reverse complement', value=False)
-    seq1_button = st.sidebar.button("show" + input_seq[seq_1] + "probes")
-    seq2_button = st.sidebar.button("show" + input_seq[seq_2] + "probes")
+
     go_button = st.sidebar.button("GO!")
     
     if not input_gblock or not go_button:
@@ -515,16 +514,14 @@ def main():
     seq_2 = list(input_seq.keys())[1]
     
 
-    if seq1_button:
-        probe_dict_seq1 = execute_subprocess_1(seq_1, valid_permutations, tm_range, GC_range, pos_range, len_range, LNA_range, aprox_tm_range, input_seq[seq_2], token)
-        st.header("Probes for " + input_seq[seq_1] + " allele")
-        display_probe_data(probe_dict_seq1)
-    elif seq2_button: 
-        probe_dict_seq2 = execute_subprocess_1(seq_2, valid_permutations, tm_range, GC_range, pos_range, len_range, LNA_range, aprox_tm_range, input_seq[seq_1], token)
-        st.header("Probes for " + input_seq[seq_2] + " allele")
-        display_probe_data(probe_dict_seq2)
-    else:
-        st.warning("Now what?")
+    probe_dict_seq1 = execute_subprocess_1(seq_1, valid_permutations, tm_range, GC_range, pos_range, len_range, LNA_range, aprox_tm_range, input_seq[seq_2], token)
+    st.header("Probes for " + input_seq[seq_1] + " allele")
+    display_probe_data(probe_dict_seq1)
+
+    probe_dict_seq2 = execute_subprocess_1(seq_2, valid_permutations, tm_range, GC_range, pos_range, len_range, LNA_range, aprox_tm_range, input_seq[seq_1], token)
+    st.header("Probes for " + input_seq[seq_2] + " allele")
+    display_probe_data(probe_dict_seq2)
+
 
     if st.button("Export probes 2 to Excel"):
         excel_name = 'probes2'
