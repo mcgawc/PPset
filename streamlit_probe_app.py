@@ -513,7 +513,9 @@ def main():
     seq_2 = list(input_seq.keys())[1]
     
     probe_dict_seq1 = execute_subprocess_1(seq_1, valid_permutations, tm_range, GC_range, pos_range, len_range, LNA_range, aprox_tm_range, input_seq[seq_2], token)
-
+    st.header("Probes for " + input_seq[seq_1] + " allele")
+    display_probe_data(probe_dict_seq1)
+    
     # Process seq_2
     sub_sequences_seq2 = generate_sub_sequences(seq_2)
     master_probe_list_seq2 = generate_master_probe_list(sub_sequences_seq2, valid_permutations)
