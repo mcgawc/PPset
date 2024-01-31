@@ -461,6 +461,24 @@ def export_probe_data_to_excel(probe_para_dict, name):
     excel_file = name + ".xlsx"
     df.to_excel(excel_file, index=True)
     return excel_file
+    
+def execute_subprocess_1(seq, valid_permutations, tm_range, GC_range, pos_range, len_range, LNA_range, aprox_tm_range, input_seq, token):
+    sub_sequences = generate_sub_sequences(seq)
+    master_probe_list = generate_master_probe_list(sub_sequences, valid_permutations)
+    master_probe_list = remove_5primeG(remove_3G_3C(master_probe_list))
+    tm_dict = calculate_Tm_values(master_probe_list) 
+    probe_dict = add_LNA_count_parameter(add_snp_distance_parameter(add_GC_ratio_parameter(add_length_parameter(create_probe_parameter_dict(tm_dict)))))
+    filtered_probes = filter_aprox_Tm_probes(probe_dict, (int(aprox_tm_range[0]), int(aprox_tm_range[1])))
+    filtered_probes = filter_GC_probes(probe_dict, (int(GC_range[0]), int(GC_range[1])))
+    filtered_probes = filter_snp_pos(probe_dict, (int(pos_range[0]), int(pos_range[1])))
+    filtered_probes = filter_length_probe(probe_dict, (int(len_range[0]), int(len_range[1])))
+    filtered_probes = filter_LNA_count_probe(probe_dict, (int(LNA_range[0]), int(LNA_range[1])))
+    filtered_probes = refine_Tm_values(probe_dict, token)
+    filtered_probes = filter_Tm_probes(probe_dict, (int(tm_range[0]), int(tm_range[1])))
+    get_hairpin_values(probe_dict, token)
+    get_mismatch_values(probe_dict, input_seq, token)
+    return probe_dict
+
 def main():
     st.title("Probe generator!")
 
@@ -494,39 +512,8 @@ def main():
     seq_1 = list(input_seq.keys())[0]
     seq_2 = list(input_seq.keys())[1]
     
-    # Process seq_1
-    sub_sequences_seq1 = generate_sub_sequences(seq_1)
-    master_probe_list_seq1 = generate_master_probe_list(sub_sequences_seq1, valid_permutations)
-    master_probe_list_seq1 = remove_5primeG(remove_3G_3C(master_probe_list_seq1))
-    tm_dict_seq1 = calculate_Tm_values(master_probe_list_seq1) 
-    probe_dict_seq1 = add_LNA_count_parameter(add_snp_distance_parameter(add_GC_ratio_parameter(add_length_parameter(create_probe_parameter_dict(tm_dict_seq1)))))
-    filtered_probes_seq1 = filter_aprox_Tm_probes(probe_dict_seq1, (int(aprox_tm_range[0]), int(aprox_tm_range[1])))
-    filtered_probes_seq1 = filter_GC_probes(probe_dict_seq1, (int(GC_range[0]), int(GC_range[1])))
-    filtered_probes_seq1 = filter_snp_pos(probe_dict_seq1, (int(pos_range[0]), int(pos_range[1])))
-    filtered_probes_seq1 = filter_length_probe(probe_dict_seq1, (int(len_range[0]), int(len_range[1])))
-    filtered_probes_seq1 = filter_LNA_count_probe(probe_dict_seq1, (int(LNA_range[0]), int(LNA_range[1])))
-    filtered_probes_seq1 = refine_Tm_values(probe_dict_seq1, token)
-    filtered_probes_seq1 = filter_Tm_probes(probe_dict_seq1, (int(tm_range[0]), int(tm_range[1])))
-    get_hairpin_values(probe_dict_seq1, token)
-    get_mismatch_values(probe_dict_seq1,input_seq[seq_2], token)
-    #get_selfdimer_values(probe_dict_seq1, token)
-    # Display probe data and offer Excel export
-    st.header("Probes for " + input_seq[seq_1] + " allele")
-    display_probe_data(probe_dict_seq1)
-    probe_name = f"{input_seq[seq_1]}_allele"
-    if st.button("Export probes 1 to Excel"):
-        excel_name = 'probes1'
-        excel_file = export_probe_data_to_excel(probe_dict_seq1, excel_name)
-        st.success(f"Data exported to Excel file: {excel_file}")
+    probe_dict_seq1 = execute_subprocess_1(seq_1, valid_permutations, tm_range, GC_range, pos_range, len_range, LNA_range, aprox_tm_range, input_seq[seq_2], token)
 
-        # Create a download button for the Excel file
-        with open(excel_file, 'rb') as my_file:
-            st.download_button(
-                label="Download Excel File",
-                data=my_file,
-                file_name=f"{excel_name}.xlsx",
-                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            )
     # Process seq_2
     sub_sequences_seq2 = generate_sub_sequences(seq_2)
     master_probe_list_seq2 = generate_master_probe_list(sub_sequences_seq2, valid_permutations)
