@@ -473,12 +473,15 @@ def execute_subprocess_1(seq, valid_permutations, tm_range, GC_range, pos_range,
     filtered_probes = filter_snp_pos(probe_dict, (int(pos_range[0]), int(pos_range[1])))
     filtered_probes = filter_length_probe(probe_dict, (int(len_range[0]), int(len_range[1])))
     filtered_probes = filter_LNA_count_probe(probe_dict, (int(LNA_range[0]), int(LNA_range[1])))
-    with st.spinner("Validating Tms of " + str(len(filtered_probes)) + " Possible Probes"):
-        filtered_probes = refine_Tm_values(probe_dict, token)
-        filtered_probes = filter_Tm_probes(probe_dict, (int(tm_range[0]), int(tm_range[1])))
-    get_hairpin_values(probe_dict, token)
-    get_mismatch_values(probe_dict, input_seq, token)
-    return probe_dict
+    if len(filtered_probes) <500 :
+        with st.spinner("Validating Tms of " + str(len(filtered_probes)) + " Possible Probes"):
+            filtered_probes = refine_Tm_values(probe_dict, token)
+            filtered_probes = filter_Tm_probes(probe_dict, (int(tm_range[0]), int(tm_range[1])))
+        get_hairpin_values(probe_dict, token)
+        get_mismatch_values(probe_dict, input_seq, token)
+        return probe_dict
+    else:
+        st.warning("Search parameters too big")
 
 def main():
     st.title("Probe generator!")
