@@ -525,7 +525,6 @@ def main():
         display_probe_data(probe_dict_seq2)
     else:
         st.warning("What is my purpose if not to make probes?")
-    st.write(valid_permutations)
 
 if __name__ == "__main__":
     client_id = "swapnil.mittal"
