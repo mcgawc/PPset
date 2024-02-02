@@ -525,21 +525,7 @@ def main():
         display_probe_data(probe_dict_seq2)
     else:
         st.warning("What is my purpose if not to make probes?")
-
-
-    if st.button("Export probes 2 to Excel"):
-        excel_name = 'probes2'
-        excel_file = export_probe_data_to_excel(probe_dict_seq2, excel_name)
-        st.success(f"Data exported to Excel file: {excel_file}")
-
-        # Create a download button for the Excel file
-        with open(excel_file, 'rb') as my_file:
-            st.download_button(
-                label="Download Excel File",
-                data=my_file,
-                file_name=f"{excel_name}.xlsx",
-                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            )
+    st.write(valid_permutations)
 
 if __name__ == "__main__":
     client_id = "swapnil.mittal"
