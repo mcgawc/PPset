@@ -519,7 +519,7 @@ def main():
         probe_dict_seq1 = execute_subprocess_1(seq_1, valid_permutations, tm_range, GC_range, pos_range, len_range, LNA_range, aprox_tm_range, input_seq[seq_2], token)
         st.header("Probes for " + input_seq[seq_1] + " allele")
         display_probe_data(probe_dict_seq1)
-    elif allele_2_go:
+    if allele_2_go:
         probe_dict_seq2 = execute_subprocess_1(seq_2, valid_permutations, tm_range, GC_range, pos_range, len_range, LNA_range, aprox_tm_range, input_seq[seq_1], token)
         st.header("Probes for " + input_seq[seq_2] + " allele")
         display_probe_data(probe_dict_seq2)
