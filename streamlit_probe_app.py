@@ -484,7 +484,7 @@ def execute_subprocess_1(seq, valid_permutations, tm_range, GC_range, pos_range,
         return probe_dict
     else:
         st.warning("Search parameters too big")
-        return
+        return "Try Again"
 
 def main():
     st.title("Probe generator!")
