@@ -530,7 +530,7 @@ def main():
         probe_dict_seq2 = execute_subprocess_1(seq_2, valid_permutations, tm_range, GC_range, pos_range, len_range, LNA_range, aprox_tm_range, input_seq[seq_1], token)
         st.header("Probes for " + input_seq[seq_2] + " allele")
         display_probe_data(probe_dict_seq2)
-    else:
+    if not allele_2_go and allele_1_go:
         st.warning("What is my purpose if not to make probes?")
 
 if __name__ == "__main__":
