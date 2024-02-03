@@ -477,7 +477,7 @@ def execute_subprocess_1(seq, valid_permutations, tm_range, GC_range, pos_range,
         with st.spinner("Validating Tms of " + str(len(filtered_probes)) + " Possible Probes"):
             filtered_probes = refine_Tm_values(probe_dict, token)
             filtered_probes = filter_Tm_probes(probe_dict, (int(tm_range[0]), int(tm_range[1])))
-            st.write( str(len(filtered_probes)) + "probes found!")
+            st.write( str(len(filtered_probes)) + " probes found!")
         with st.spinner("Fetching secondary data"):
             get_hairpin_values(probe_dict, token)
             get_mismatch_values(probe_dict, input_seq, token)
