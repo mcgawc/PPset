@@ -124,17 +124,30 @@ def get_mismatch_from_IDT(seq, comp_seq, token):
         'Authorization': 'Bearer ' + token
     }
 
-    conn.request("POST", "/restapi/v1/OligoAnalyzer/TmMisMatch", payload, headers)
-    res = conn.getresponse()
-    data = res.read()
     
-    # Parse the JSON response
-    response_data = json.loads(data.decode("utf-8"))
-    
-    # Print only the "MeltTemp" value
-    missmatch_tm = response_data["MeltTemp"]
-    return(missmatch_tm)   
-    
+    for attempt in range(max_retries):
+        conn.request("POST", "/restapi/v1/OligoAnalyzer/Analyze", payload, headers)
+        res = conn.getresponse()
+        data = res.read()
+
+        # Check if the response status code is 503
+        if res.status == 503:
+            print(f"Received HTTP 503. Retrying after 0.1 seconds...")
+            time.sleep(0.1)
+            continue
+
+        # Parse the JSON response
+        try:
+            response_data = json.loads(data.decode("utf-8"))
+        except json.decoder.JSONDecodeError as e:
+            print("Error decoding JSON:", e)
+            return None
+
+        # Print only the "MeltTemp" value
+        missmatch_tm = response_data.get('MeltTemp')  # Use get method to handle missing key gracefully
+        st.write(missmatch_tm)
+        return(missmatch_tm)   
+    return None
 def get_hairpin_data_from_IDT(seq, token):
   
     conn = http.client.HTTPSConnection("www.idtdna.com")
@@ -150,7 +163,29 @@ def get_hairpin_data_from_IDT(seq, token):
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
     }
+    for attempt in range(max_retries):
+        conn.request("POST", "/restapi/v1/OligoAnalyzer/Analyze", payload, headers)
+        res = conn.getresponse()
+        data = res.read()
 
+        # Check if the response status code is 503
+        if res.status == 503:
+            print(f"Received HTTP 503. Retrying after 0.1 seconds...")
+            time.sleep(0.1)
+            continue
+
+        # Parse the JSON response
+        try:
+            response_data = json.loads(data.decode("utf-8"))
+        except json.decoder.JSONDecodeError as e:
+            print("Error decoding JSON:", e)
+            return None
+
+        # Print only the "MeltTemp" value
+        delta_G = str(response_data[0]["deltaG"])  # Use get method to handle missing key gracefully
+        st.write(delta_G)
+        return(delta_G)   
+    return None
     conn.request("POST", "/restapi/v1/OligoAnalyzer/Hairpin", payload, headers)
     res = conn.getresponse()
     data = res.read()
