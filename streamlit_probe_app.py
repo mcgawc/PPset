@@ -81,7 +81,7 @@ def get_data_from_IDT(seq, token):
     response_data = json.loads(data.decode("utf-8"))
     # Print only the "MeltTemp" value
     st.write(response_data)
-    melt_temp = response_data["MeltTemp"]
+    melt_temp = response_data['MeltTemp']
     st.write(melt_temp)
     return(melt_temp)   
     
