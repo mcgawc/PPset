@@ -74,7 +74,7 @@ def get_data_from_IDT(seq, token):
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
 
-    for attempt in range(5):
+    for attempt in range(max_retries):
         conn.request("POST", "/restapi/v1/OligoAnalyzer/Analyze", payload, headers)
         res = conn.getresponse()
         data = res.read()
@@ -82,7 +82,7 @@ def get_data_from_IDT(seq, token):
         # Check if the response status code is 503
         if res.status == 503:
             print(f"Received HTTP 503. Retrying after {retry_delay} seconds...")
-            time.sleep(0.1)
+            time.sleep(retry_delay)
             continue
 
         # Parse the JSON response
