@@ -13,6 +13,8 @@ import requests
 import json
 from urllib import request, parse
 import http.client
+max_retries = 5
+retry_delay = 0.1
 
 def reverse_complement(sequence):
     complement_dict = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C', '[' : ']' , '/' :'/', ']' : '[' }
@@ -71,8 +73,7 @@ def get_data_from_IDT(seq, token):
     headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
-    max_retries = 5
-    retry_delay = 0.1
+
     for attempt in range(max_retries):
         conn.request("POST", "/restapi/v1/OligoAnalyzer/Analyze", payload, headers)
         res = conn.getresponse()
