@@ -97,7 +97,6 @@ def get_data_from_IDT(seq, token, max_retries=5):
             return None
 
         # Print only the "MeltTemp" value
-        st.write(response_data)
         melt_temp = response_data.get('MeltTemp')  # Use get method to handle missing key gracefully
         st.write(melt_temp)
         return melt_temp
