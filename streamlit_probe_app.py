@@ -181,9 +181,10 @@ def get_hairpin_data_from_IDT(seq, token):
             print("Error decoding JSON:", e)
             return None
 
-        # Print only the "MeltTemp" value
+        # Print only the "" value
+        st.write(response_data)
         delta_G = str(response_data[0]["deltaG"])  # Use get method to handle missing key gracefully
-        st.write(delta_G)
+        
         return(delta_G)   
     return None
     conn.request("POST", "/restapi/v1/OligoAnalyzer/Hairpin", payload, headers)
