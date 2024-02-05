@@ -82,7 +82,7 @@ def get_data_from_IDT(seq, token):
     try:
         response_data = json.loads(data.decode("utf-8"))
     except json.decoder.JSONDecodeError as e:
-        print("Error decoding JSON:", e)
+        st.write("Error decoding JSON:", e)
         return None
 
     # Print only the "MeltTemp" value
