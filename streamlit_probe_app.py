@@ -14,8 +14,8 @@ import json
 from urllib import request, parse
 import http.client
 import time
-max_retries = 5
-retry_delay = 0.1
+max_retries = 10
+retry_delay = 0.01
 
 def reverse_complement(sequence):
     complement_dict = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C', '[' : ']' , '/' :'/', ']' : '[' }
