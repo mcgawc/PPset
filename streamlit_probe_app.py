@@ -53,6 +53,7 @@ def get_access_token(client_id, client_secret, idt_username, idt_password):
         raise RuntimeError("Request failed with error code:" + response.status + "\nBody:\n" + body)
     
     body_dict = json.loads(body)
+    st.write(body_dict)
     return body_dict["access_token"]
 
 def get_data_from_IDT(seq, token):
