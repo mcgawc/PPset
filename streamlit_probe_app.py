@@ -76,9 +76,15 @@ def get_data_from_IDT(seq, token):
     conn.request("POST", "/restapi/v1/OligoAnalyzer/Analyze", payload, headers)
     res = conn.getresponse()
     data = res.read()
-    
+        print("Raw response:", data)
+
     # Parse the JSON response
-    response_data = json.loads(data.decode("utf-8"))
+    try:
+        response_data = json.loads(data.decode("utf-8"))
+    except json.decoder.JSONDecodeError as e:
+        print("Error decoding JSON:", e)
+        return None
+
     # Print only the "MeltTemp" value
     st.write(response_data)
     melt_temp = response_data['MeltTemp']
