@@ -72,24 +72,34 @@ def get_data_from_IDT(seq, token):
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
     }
+    for attempt in range(max_retries):
+        conn.request("POST", "/restapi/v1/OligoAnalyzer/Analyze", payload, headers)
+        res = conn.getresponse()
+        data = res.read()
 
-    conn.request("POST", "/restapi/v1/OligoAnalyzer/Analyze", payload, headers)
-    res = conn.getresponse()
-    data = res.read()
-    print("Raw response:", data)
+        # Check if the response status code is 503
+        if res.status == 503:
+            print(f"Received HTTP 503. Retrying after {retry_delay} seconds...")
+            time.sleep(retry_delay)
+            continue
 
-    # Parse the JSON response
-    try:
-        response_data = json.loads(data.decode("utf-8"))
-    except json.decoder.JSONDecodeError as e:
-        st.write("Error decoding JSON:", e)
-        return None
+        # Parse the JSON response
+        try:
+            response_data = json.loads(data.decode("utf-8"))
+        except json.decoder.JSONDecodeError as e:
+            print("Error decoding JSON:", e)
+            return None
 
-    # Print only the "MeltTemp" value
-    st.write(response_data)
-    melt_temp = response_data['MeltTemp']
-    st.write(melt_temp)
-    return(melt_temp)   
+        # Print only the "MeltTemp" value
+        st.write(response_data)
+        melt_temp = response_data.get('MeltTemp')  # Use get method to handle missing key gracefully
+        st.write(melt_temp)
+        return melt_temp
+    
+    # If max_retries is reached and no valid response is obtained, return None
+    print(f"Max retries reached ({max_retries}). No valid response received.")
+    return None
+
     
 def get_mismatch_from_IDT(seq, comp_seq, token):
     conn = http.client.HTTPSConnection("www.idtdna.com")
