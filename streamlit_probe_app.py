@@ -13,6 +13,7 @@ import requests
 import json
 from urllib import request, parse
 import http.client
+import time
 max_retries = 5
 retry_delay = 0.1
 
@@ -58,7 +59,9 @@ def get_access_token(client_id, client_secret, idt_username, idt_password):
     st.write(body_dict)
     return body_dict["access_token"]
 
-def get_data_from_IDT(seq, token):
+
+
+def get_data_from_IDT(seq, token, max_retries=5):
     conn = http.client.HTTPSConnection("www.idtdna.com")
 
     payload = json.dumps({
@@ -73,6 +76,7 @@ def get_data_from_IDT(seq, token):
     headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
+    }
 
     for attempt in range(max_retries):
         conn.request("POST", "/restapi/v1/OligoAnalyzer/Analyze", payload, headers)
@@ -81,8 +85,8 @@ def get_data_from_IDT(seq, token):
 
         # Check if the response status code is 503
         if res.status == 503:
-            print(f"Received HTTP 503. Retrying after {retry_delay} seconds...")
-            time.sleep(retry_delay)
+            print(f"Received HTTP 503. Retrying after 0.1 seconds...")
+            time.sleep(0.1)
             continue
 
         # Parse the JSON response
@@ -101,7 +105,6 @@ def get_data_from_IDT(seq, token):
     # If max_retries is reached and no valid response is obtained, return None
     print(f"Max retries reached ({max_retries}). No valid response received.")
     return None
-
     
 def get_mismatch_from_IDT(seq, comp_seq, token):
     conn = http.client.HTTPSConnection("www.idtdna.com")
