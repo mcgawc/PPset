@@ -78,7 +78,7 @@ def get_data_from_IDT(seq, token):
     
     # Parse the JSON response
     response_data = json.loads(data.decode("utf-8"))
-    
+    st.write(response_data)
     # Print only the "MeltTemp" value
     melt_temp = response_data["MeltTemp"]
     return(melt_temp)   
