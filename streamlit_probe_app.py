@@ -71,8 +71,9 @@ def get_data_from_IDT(seq, token):
     headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
-    }
-    for attempt in range(5):
+    max_retries = 5
+    retry_delay = 0.1
+    for attempt in range(max_retries):
         conn.request("POST", "/restapi/v1/OligoAnalyzer/Analyze", payload, headers)
         res = conn.getresponse()
         data = res.read()
