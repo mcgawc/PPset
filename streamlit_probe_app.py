@@ -76,7 +76,7 @@ def get_data_from_IDT(seq, token):
     conn.request("POST", "/restapi/v1/OligoAnalyzer/Analyze", payload, headers)
     res = conn.getresponse()
     data = res.read()
-        print("Raw response:", data)
+    print("Raw response:", data)
 
     # Parse the JSON response
     try:
