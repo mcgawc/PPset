@@ -444,7 +444,7 @@ def refine_Tm_values(probe_para_dict, token):
         PROBE = probe.upper()
         PROBE = ''.join([char for char in PROBE if char != "*"])
         probe_para_dict[probe]["Tm"] = get_data_from_IDT(PROBE, token)
-        progress_bar.progress((attempt + 1) /len(probe_para_dict) )
+        progress_bar.progress((probe + 1) /len(probe_para_dict) )
     return probe_para_dict
     
 def get_hairpin_values(probe_para_dict, token):
