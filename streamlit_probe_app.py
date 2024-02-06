@@ -440,11 +440,12 @@ def filter_LNA_count_probe(probe_para_dict, LNA_range=(40, 50)):
     return probe_para_dict  
 def refine_Tm_values(probe_para_dict, token):
     progress_bar = st.progress(0)  # Create a progress bar with initial value 0
-    for probe in probe_para_dict:
+    total_probes = len(probe_para_dict)
+    for idx, probe in enumerate(probe_para_dict):
         PROBE = probe.upper()
         PROBE = ''.join([char for char in PROBE if char != "*"])
         probe_para_dict[probe]["Tm"] = get_data_from_IDT(PROBE, token)
-        progress_bar.progress((probe + 1) /len(probe_para_dict) )
+        progress_bar.progress((idx + 1) / total_probes)
     return probe_para_dict
     
 def get_hairpin_values(probe_para_dict, token):
