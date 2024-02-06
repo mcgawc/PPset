@@ -143,7 +143,6 @@ def get_mismatch_from_IDT(seq, comp_seq, token):
 
         # Print only the "MeltTemp" value
         missmatch_tm = response_data.get('MeltTemp')  # Use get method to handle missing key gracefully
-        st.write(missmatch_tm)
         return(missmatch_tm)   
     return None
 def get_hairpin_data_from_IDT(seq, token):
@@ -439,14 +438,21 @@ def filter_LNA_count_probe(probe_para_dict, LNA_range=(40, 50)):
 def refine_Tm_values(probe_para_dict, token):
     progress_bar = st.progress(0)  # Create a progress bar with initial value 0
     total_probes = len(probe_para_dict)
+    progress_annotation = st.empty()  # Create an empty placeholder for progress annotation
+
     for idx, probe in enumerate(probe_para_dict):
-        st.write(f"Validating Tm of {idx + 1} out of {total_probes} possible probes")
         PROBE = probe.upper()
         PROBE = ''.join([char for char in PROBE if char != "*"])
         probe_para_dict[probe]["Tm"] = get_data_from_IDT(PROBE, token)
+        
+        # Update progress annotation with current progress
+        progress_annotation.write(f"Validating Tm: {idx + 1}/{total_probes} probes")
         progress_bar.progress((idx + 1) / total_probes)
+
+    # After the loop, clear the progress annotation
+    progress_annotation.empty()
+
     return probe_para_dict
-    
 def get_hairpin_values(probe_para_dict, token):
     for probe in probe_para_dict:
         PROBE = probe.upper()
