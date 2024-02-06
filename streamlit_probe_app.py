@@ -440,6 +440,7 @@ def refine_Tm_values(probe_para_dict, token):
     progress_bar = st.progress(0)  # Create a progress bar with initial value 0
     total_probes = len(probe_para_dict)
     for idx, probe in enumerate(probe_para_dict):
+        st.spinner("Validatied Tms of " + str(idx + 1) +  " out of " + str(len(probe_para_dict))+ "Possible Probes"):
         PROBE = probe.upper()
         PROBE = ''.join([char for char in PROBE if char != "*"])
         probe_para_dict[probe]["Tm"] = get_data_from_IDT(PROBE, token)
@@ -533,10 +534,9 @@ def execute_subprocess_1(seq, valid_permutations, tm_range, GC_range, pos_range,
     filtered_probes = filter_length_probe(probe_dict, (int(len_range[0]), int(len_range[1])))
     filtered_probes = filter_LNA_count_probe(probe_dict, (int(LNA_range[0]), int(LNA_range[1])))
     if len(filtered_probes) <200 :
-        with st.spinner("Validating Tms of " + str(len(filtered_probes)) + " Possible Probes"):
-            filtered_probes = refine_Tm_values(probe_dict, token)
-            filtered_probes = filter_Tm_probes(probe_dict, (int(tm_range[0]), int(tm_range[1])))
-            st.write( str(len(filtered_probes)) + " probes found!")
+        filtered_probes = refine_Tm_values(probe_dict, token)
+        filtered_probes = filter_Tm_probes(probe_dict, (int(tm_range[0]), int(tm_range[1])))
+        st.write( str(len(filtered_probes)) + " probes found!")
         with st.spinner("Fetching secondary data"):
             #get_hairpin_values(probe_dict, token)
             get_mismatch_values(probe_dict, input_seq, token)
