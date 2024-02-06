@@ -56,7 +56,6 @@ def get_access_token(client_id, client_secret, idt_username, idt_password):
         raise RuntimeError("Request failed with error code:" + response.status + "\nBody:\n" + body)
     
     body_dict = json.loads(body)
-    st.write(body_dict)
     return body_dict["access_token"]
 
 
@@ -98,7 +97,6 @@ def get_data_from_IDT(seq, token, max_retries=5):
 
         # Print only the "MeltTemp" value
         melt_temp = response_data.get('MeltTemp')  # Use get method to handle missing key gracefully
-        st.write(melt_temp)
         return melt_temp
     
     # If max_retries is reached and no valid response is obtained, return None
