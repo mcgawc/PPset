@@ -556,7 +556,7 @@ def main():
 
     # Sidebar for user input
     st.sidebar.header("Input Fields here:")
-    input_gblock = st.sidebar.text_input("Enter the gblock seq from ELN")
+    input_gblock = st.sidebar.text_input("Enter nucleotide Sequence ")
     gblock = clean_up_input(input_gblock)
     
 
@@ -573,7 +573,7 @@ def main():
     go_button = st.sidebar.button("GO!")
     
     if not input_gblock or not go_button:
-        st.warning("Please enter the gblock sequence and press GO!")
+        st.warning("Enter a sequence > 20Bps in length, annotate the SNP location with '[' and ']' eg: ATGCGATAGACAGTGC[A/G]ATGACACAGTAGAGAAct the program will then generate LNA probes which are designed to be allele selective for that SNP")
         return
    
     if rev_comp:
