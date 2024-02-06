@@ -440,7 +440,7 @@ def refine_Tm_values(probe_para_dict, token):
     progress_bar = st.progress(0)  # Create a progress bar with initial value 0
     total_probes = len(probe_para_dict)
     for idx, probe in enumerate(probe_para_dict):
-        st.spinner("Validatied Tms of " + str(idx + 1) +  " out of " + str(len(probe_para_dict))+ "Possible Probes"):
+        st.write(f"Validating Tm of {idx + 1} out of {total_probes} possible probes")
         PROBE = probe.upper()
         PROBE = ''.join([char for char in PROBE if char != "*"])
         probe_para_dict[probe]["Tm"] = get_data_from_IDT(PROBE, token)
