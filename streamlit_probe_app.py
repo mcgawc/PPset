@@ -601,7 +601,7 @@ def main():
 if __name__ == "__main__":
     client_id = "colin.mcgaw"
     client_secret = "2b875b04-8046-49dc-9472-1d43a5e5a73e"
-    idt_username = "colin.mcgaw"
+    idt_username = "colin.mcgaw@nlorem.org"
     idt_password = "PgSZL7!9%h!^nS^"
     token = get_access_token(client_id, client_secret, idt_username, idt_password)
     main()
