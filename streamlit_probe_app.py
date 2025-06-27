@@ -599,9 +599,9 @@ def main():
         st.warning("What is my purpose if not to make probes?")
 
 if __name__ == "__main__":
-    client_id = "swapnil.mittal"
+    client_id = "colin.mcgaw"
     client_secret = "f669c31a-1817-49ea-b8d4-d666dd1fb8bf"
-    idt_username = "Swappi.mittal"
-    idt_password = "Swappi_IDT"
+    idt_username = "colin.mcgaw@nlorem.org"
+    idt_password = "PgSZL7!9%h!^nS^"
     token = get_access_token(client_id, client_secret, idt_username, idt_password)
     main()
